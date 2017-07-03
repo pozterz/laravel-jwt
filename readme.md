@@ -5,5 +5,6 @@
 ```sh
 $ composer install
 $ php artisan jwt:generate
+$ php artisan key:generate
 $ php artisan migrate --seed
 ```

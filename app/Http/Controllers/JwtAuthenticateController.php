@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Support\Facades\Validator;
 use Log;
 
 class JwtAuthenticateController extends Controller
@@ -37,6 +38,25 @@ class JwtAuthenticateController extends Controller
 
         // if no errors are encountered we can return a JWT
         return response()->json(compact('token'));
+    }
+
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(),$this->rules());
+
+        if(!$validator->fails()){
+            $user = User::create([
+                'email' => $request->email,
+                'name' => $request->name,
+                'password' => bcrypt($request->password)
+            ]);
+
+            $token = JWTAuth::fromUser($user);
+
+             return response()->json(['token' => $token]);
+        }
+        
+        return response()->json('failed',500);
     }
 
     public function createRole(Request $request){
@@ -73,4 +93,14 @@ class JwtAuthenticateController extends Controller
 
 	    return response()->json("created");    
     }
+
+    public function rules()
+    {
+        return [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+        ];
+    }
+
 }

@@ -36,4 +36,5 @@ Route::group(['prefix' => 'api', 'middleware' => ['ability:admin,create-users']]
 });
 
 // Authentication route
-Route::post('authenticate', 'JwtAuthenticateController@authenticate');	
+Route::post('authenticate', 'JwtAuthenticateController@authenticate');
+Route::post('register','JwtAuthenticateController@register');
