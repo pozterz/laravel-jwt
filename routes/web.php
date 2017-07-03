@@ -15,9 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::group(['prefix' => 'api', 'middleware' => ['ability:admin,manage-role']],function(){
-
+// API route group that we need to protect
+Route::group(['prefix' => 'api', 'middleware' => ['ability:admin,create-users|manage-role']], function()
+{
 	Route::post('role', 'JwtAuthenticateController@createRole');
 	// Route to create a new permission
 	Route::post('permission', 'JwtAuthenticateController@createPermission');
@@ -25,14 +25,12 @@ Route::group(['prefix' => 'api', 'middleware' => ['ability:admin,manage-role']],
 	Route::post('assign-role', 'JwtAuthenticateController@assignRole');
 	// Route to attache permission to a role
 	Route::post('attach-permission', 'JwtAuthenticateController@attachPermission');
-
-});
-
-// API route group that we need to protect
-Route::group(['prefix' => 'api', 'middleware' => ['ability:admin,create-users']], function()
-{
     // Protected route
     Route::get('users', 'JwtAuthenticateController@index');
+});
+
+Route::group(['prefix' => 'api', 'middleware' => 'ability:user,get-user'], function(){
+	Route::get('user', 'UserController@index');
 });
 
 // Authentication route

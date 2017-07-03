@@ -17,5 +17,13 @@ class PermissionTableSeeder extends Seeder
         $permission = new Permission;
     	$permission->name = 'create-users';
     	$permission->save();
+
+        $permission = new Permission;
+    	$permission->name = 'manage-role';
+    	$permission->save();
+
+        $permission = new Permission;
+    	$permission->name = 'get-user';
+    	$permission->save();
     }
 }

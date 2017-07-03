@@ -43,6 +43,8 @@ class JwtAuthenticateController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(),$this->rules());
+        $user_role = 'user';
+        $user_permission = 'get-user';
 
         if(!$validator->fails()){
             $user = User::create([
@@ -51,15 +53,21 @@ class JwtAuthenticateController extends Controller
                 'password' => bcrypt($request->password)
             ]);
 
+            $role = Role::where('name',$user_role)->first();
+            $permission = Permission::where('name', $user_permission)->first();
+
+            $user->attachRole($role->id);
+
             $token = JWTAuth::fromUser($user);
 
              return response()->json(['token' => $token]);
         }
         
-        return response()->json('failed',500);
+        return response()->json(['errors' => $validator->errors()->all()],500);
     }
 
-    public function createRole(Request $request){
+    public function createRole(Request $request)
+    {
     	$role = new Role;
     	$role->name = $request->name;
     	$role->save();
@@ -67,7 +75,8 @@ class JwtAuthenticateController extends Controller
     	return response()->json("created");   
     }
 
-    public function createPermission(Request $request){
+    public function createPermission(Request $request)
+    {
         $permission = new Permission;
     	$permission->name = $request->name;
     	$permission->save();
@@ -75,9 +84,9 @@ class JwtAuthenticateController extends Controller
     	return response()->json("created");      
     }
 
-    public function assignRole(Request $request){
+    public function assignRole(Request $request)
+    {
         $user = User::where('email',$request->email)->first();
-
         $role = Role::where('name',$request->role)->first();
 
         $user->roles()->attach($role->id);
@@ -85,7 +94,8 @@ class JwtAuthenticateController extends Controller
         return response()->json("created");
     }
 
-    public function attachPermission(Request $request){
+    public function attachPermission(Request $request)
+    {
     	$role = Role::where('name', $request->role)->first();
 	    $permission = Permission::where('name', $request->name)->first();
 	    
