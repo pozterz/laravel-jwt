@@ -29,7 +29,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['ability:admin,create-users|ma
     Route::get('users', 'JwtAuthenticateController@index');
 });
 
-Route::group(['prefix' => 'api', 'middleware' => 'ability:user,get-user'], function(){
+Route::group(['prefix' => 'api', 'middleware' => 'ability:admin|user,get-user'], function(){
 	Route::get('user', 'UserController@index');
 });
 
