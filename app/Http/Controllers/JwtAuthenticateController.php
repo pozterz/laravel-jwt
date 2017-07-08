@@ -29,7 +29,7 @@ class JwtAuthenticateController extends Controller
         try {
             // verify the credentials and create a token for the user
             if (! $token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 401);
+                return response()->json(['error' => 'invalid_credentials']);
             }
         } catch (JWTException $e) {
             // something went wrong
@@ -63,7 +63,7 @@ class JwtAuthenticateController extends Controller
              return response()->json(['token' => $token]);
         }
         
-        return response()->json(['errors' => $validator->errors()->all()],500);
+        return response()->json(['errors' => $validator->errors()->all()]);
     }
 
     public function createRole(Request $request)

@@ -2,6 +2,10 @@
 
 ### installation
 
+### Dependencies
+- [Entrust](https://github.com/Zizaco/entrust)
+- [Laravel JWT Auth](https://github.com/tymondesigns/jwt-auth)
+
 ```sh
 $ composer install
 $ php artisan jwt:generate
