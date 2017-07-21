@@ -2,7 +2,8 @@
 
 
 ### Dependencies
-- [Entrust](https://github.com/Zizaco/entrust)
+- [Laravel-acl](https://github.com/z1haze/laravel-acl)
+- [Laravel-CORS](https://github.com/barryvdh/laravel-cors)
 - [Laravel JWT Auth](https://github.com/tymondesigns/jwt-auth)
 
 ### installation
